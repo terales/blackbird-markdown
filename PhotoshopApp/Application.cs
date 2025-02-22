@@ -1,49 +1,24 @@
 ﻿using Blackbird.Applications.Sdk.Common;
-using Blackbird.Applications.Sdk.Common.Authentication.OAuth2;
-using Blackbird.Applications.Sdk.Common.Invocation;
 using Blackbird.Applications.Sdk.Common.Metadata;
-using PhotoshopApp.Connections.OAuth;
 
 namespace PhotoshopApp;
 
-public class Application : BaseInvocable,  IApplication, ICategoryProvider
+public class Application : IApplication, ICategoryProvider
 {
-    private readonly Dictionary<Type, object> _typesInstances;
-
-    public Application(InvocationContext invocationContext) : base(invocationContext)
+    public IEnumerable<ApplicationCategory> Categories
     {
-        // Creating OAuth service instances
-       // _typesInstances = CreateTypesInstances();
-    }
-
-    public IEnumerable<ApplicationCategory> Categories 
-    {
-        get => [];
+        get => [ApplicationCategory.Utilities];
         set { }
     }
 
-    /// <summary>
-    /// Returns authorization instance
-    /// </summary>
-    public T GetInstance<T>()
+    public string Name
     {
-        // Logic for OAuth auth
-        // if (!_typesInstances.TryGetValue(typeof(T), out var value))
-        // {
-        //     throw new InvalidOperationException($"Instance of type '{typeof(T)}' not found");
-        // }
-        //
-        // return (T)value;
-
-        throw new NotImplementedException();
+        get => "Photoshop App";
+        set { }
     }
 
-    private Dictionary<Type, object> CreateTypesInstances()
+    public T GetInstance<T>()
     {
-        return new Dictionary<Type, object>
-        {
-            { typeof(IOAuth2AuthorizeService), new OAuth2AuthorizeService(InvocationContext) },
-            { typeof(IOAuth2TokenService), new OAuth2TokenService(InvocationContext) }
-        };
+        throw new NotImplementedException();
     }
 }

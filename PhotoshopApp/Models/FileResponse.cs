@@ -1,6 +1,5 @@
 using Blackbird.Applications.Sdk.Common.Files;
 
-namespace PhotoshopApp.Models.Response;
+namespace PhotoshopApp.Models;
 
-// File type for managing files in BlackBird
 public record FileResponse(FileReference File);
