@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xliff version="1.2">
+  <file source-language="it" target-language="en">
+    <body>
+      <trans-unit id="Webinar">
+        <source>Webinar</source>
+      </trans-unit>
+      <trans-unit id="Tendenze HR 2025:">
+        <source>Tendenze HR 2025:</source>
+      </trans-unit>
+      <trans-unit id="Dal Passato al Futuro del Merca">
+        <source>Dal Passato al Futuro del Mercato del Lavoro</source>
+      </trans-unit>
+      <trans-unit id="Roberta Zantedeschi">
+        <source>Roberta Zantedeschi</source>
+      </trans-unit>
+      <trans-unit id="Consulente HR">
+        <source>Consulente HR</source>
+      </trans-unit>
+      <trans-unit id="Pamela Nerattini">
+        <source>Pamela Nerattini</source>
+      </trans-unit>
+      <trans-unit id="Consulente HR">
+        <source>Consulente HR</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

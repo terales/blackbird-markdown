@@ -30,9 +30,11 @@ public class PsdActions : BaseInvocable
         using var psdStream = new MemoryStream();
         var downloadedStream = await _fileClient.DownloadAsync(psdFile);
         await downloadedStream.CopyToAsync(psdStream);
+        psdStream.Position = 0;
 
         var fileElement = new XElement("file", 
-            new XAttribute("source-language", "en"),
+            new XAttribute("source-language", "it"),
+            new XAttribute("target-language", "en"),
             new XElement("body"));
 
         var xliffDoc = new XDocument(
@@ -45,13 +47,14 @@ public class PsdActions : BaseInvocable
             var textLayers = psdImage.Layers
                 .Where(l => l is TextLayer)
                 .Cast<TextLayer>()
+                .Reverse()
                 .ToList();
 
             foreach (var textLayer in textLayers)
             {
                 var transUnit = new XElement("trans-unit",
                     new XAttribute("id", textLayer.Name),
-                    new XElement("source", textLayer.TextData.Text)
+                    new XElement("source", textLayer.TextData.Text.Trim())
                 );
                 
                 fileElement.Element("body")?.Add(transUnit);
@@ -60,6 +63,7 @@ public class PsdActions : BaseInvocable
 
         var xmlStream = new MemoryStream();
         xliffDoc.Save(xmlStream);
+        xmlStream.Position = 0;
 
         var xliffReference = await _fileClient.UploadAsync(
             xmlStream,
@@ -91,6 +95,7 @@ public class PsdActions : BaseInvocable
         using var psdStream = new MemoryStream();
         var downloadedPsd = await _fileClient.DownloadAsync(originalPsd);
         await downloadedPsd.CopyToAsync(psdStream);
+        psdStream.Position = 0;
         
         using (var psdImage = (PsdImage)Image.Load(psdStream))
         {
