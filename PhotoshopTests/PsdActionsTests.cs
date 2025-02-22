@@ -39,4 +39,34 @@ public class PsdActionsTests : TestBase
         ));
         Assert.AreEqual(expectedContent, content, "Generated XLIFF should match expected content");
     }
+
+    [TestMethod]
+    public async Task TestXliffToPsd()
+    {
+        // Arrange
+        var actions = new PsdActions(InvocationContext, FileManager);
+        var originalPsd = new FileReference { Name = "webinar-2025-example.psd" };
+        var translatedXliff = new FileReference { Name = "webinar-2025-example_translated.xliff" };
+
+        // Act
+        var result = await actions.UpdatePsdFromXliff(originalPsd, translatedXliff);
+
+        // Assert
+        Assert.IsNotNull(result, "Result should not be null");
+        Assert.IsNotNull(result.File, "Result.File should not be null");
+        Assert.IsTrue(result.File.Name.EndsWith("_translated.psd"), "Output file should have _translated.psd suffix");
+
+        var outputPath = Path.Combine(
+            FileManager.FolderLocation,
+            "Output",
+            result.File.Name);
+
+        Assert.IsTrue(File.Exists(outputPath), $"File should exist at {outputPath}");
+
+        var fileInfo = new FileInfo(outputPath);
+        Assert.IsTrue(fileInfo.Length > 0, $"File should not be empty (current size: {fileInfo.Length} bytes)");
+
+        // You might want to add more specific assertions here to verify the content
+        // of the translated PSD file, such as checking specific text layers
+    }
 }

@@ -35,6 +35,8 @@ public class PsdActions : BaseInvocable
         var fileElement = new XElement("file", 
             new XAttribute("source-language", "it"),
             new XAttribute("target-language", "en"),
+            new XAttribute("original", psdFile.Name),
+            new XAttribute("datatype", "application/x-photoshop"),
             new XElement("body"));
 
         var xliffDoc = new XDocument(
@@ -50,10 +52,12 @@ public class PsdActions : BaseInvocable
                 .Reverse()
                 .ToList();
 
-            foreach (var textLayer in textLayers)
+            for (var i = 0; i < textLayers.Count; i++)
             {
+                var textLayer = textLayers[i];
                 var transUnit = new XElement("trans-unit",
-                    new XAttribute("id", textLayer.Name),
+                    new XAttribute("id", i.ToString()),
+                    new XAttribute("resname", textLayer.Name.Trim()),
                     new XElement("source", textLayer.TextData.Text.Trim())
                 );
                 
@@ -89,7 +93,7 @@ public class PsdActions : BaseInvocable
         var translations = xliffDoc.Descendants("trans-unit")
             .Where(u => u.Attribute("id") != null)
             .ToDictionary(
-                u => u.Attribute("id")!.Value,
+                u => int.Parse(u.Attribute("id")!.Value),
                 u => u.Element("target")?.Value ?? string.Empty);
 
         using var psdStream = new MemoryStream();
@@ -99,11 +103,16 @@ public class PsdActions : BaseInvocable
         
         using (var psdImage = (PsdImage)Image.Load(psdStream))
         {
-            foreach (var layer in psdImage.Layers)
+            var textLayers = psdImage.Layers
+                .Where(l => l is TextLayer)
+                .Cast<TextLayer>()
+                .Reverse()
+                .ToList();
+
+            for (var i = 0; i < textLayers.Count; i++)
             {
-                if (!(layer is TextLayer textLayer)) continue;
-                
-                if (translations.TryGetValue(textLayer.Name, out var translatedText))
+                var textLayer = textLayers[i];
+                if (translations.TryGetValue(i, out var translatedText))
                 {
                     var portion = textLayer.TextData.Items[0];
                     portion.Text = translatedText;
