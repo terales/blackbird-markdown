@@ -1,8 +1,8 @@
-using PhotoshopApp.Actions;
+using MarkdownApp.Actions;
 using Blackbird.Applications.Sdk.Common.Files;
-using PhotoshopTests.Base;
+using MarkdownTests.Base;
 
-namespace PhotoshopTests;
+namespace MarkdownTests;
 
 [TestClass]
 public class PsdActionsTests : TestBase

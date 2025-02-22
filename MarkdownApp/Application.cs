@@ -1,7 +1,7 @@
 ﻿using Blackbird.Applications.Sdk.Common;
 using Blackbird.Applications.Sdk.Common.Metadata;
 
-namespace PhotoshopApp;
+namespace MarkdownApp;
 
 public class Application : IApplication, ICategoryProvider
 {
@@ -13,7 +13,7 @@ public class Application : IApplication, ICategoryProvider
 
     public string Name
     {
-        get => "Photoshop App";
+        get => "Markdown App";
         set { }
     }
 

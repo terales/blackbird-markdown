@@ -1,7 +1,7 @@
 using Blackbird.Applications.Sdk.Common.Authentication;
 using Blackbird.Applications.Sdk.Common.Connections;
 
-namespace PhotoshopApp.Connections;
+namespace MarkdownApp.Connections;
 
 public class ConnectionValidator : IConnectionValidator
 {

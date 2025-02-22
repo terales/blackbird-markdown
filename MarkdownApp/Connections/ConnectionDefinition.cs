@@ -1,7 +1,7 @@
 ﻿using Blackbird.Applications.Sdk.Common.Authentication;
 using Blackbird.Applications.Sdk.Common.Connections;
 
-namespace PhotoshopApp.Connections;
+namespace MarkdownApp.Connections;
 
 public class ConnectionDefinition : IConnectionDefinition
 {
@@ -10,7 +10,7 @@ public class ConnectionDefinition : IConnectionDefinition
     {
         new()
         {
-            Name = "Photoshop App connection",
+            Name = "Markdown App connection",
             AuthenticationType = ConnectionAuthenticationType.Undefined,
             ConnectionProperties = new List<ConnectionProperty>()
         }

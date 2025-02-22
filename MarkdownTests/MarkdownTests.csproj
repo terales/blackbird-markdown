@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PhotoshopApp\PhotoshopApp.csproj" />
+    <ProjectReference Include="..\MarkdownApp\MarkdownApp.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,4 +36,4 @@
     </Content>
   </ItemGroup>
 
-</Project>
+</Project> 

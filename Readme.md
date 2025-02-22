@@ -1,17 +1,19 @@
-﻿# Photoshop App
+﻿# Markdown App
 
 <!-- begin docs -->
 
-This is an unofficial Blackbird.io app for converting Photoshop files (`.psd`) to and from XLIFF.
+This is an unofficial Blackbird.io app for converting Markdown files (`.md`, `.mdx`) to and from XLIFF.
 
 ## Connecting
 
+This app does not require any special connection settings.
+
 ## Actions
 
-This combination of actions allows you to convert any Photoshop files (`.psd`) to XLIFF and back. Use it in combination with other Blackbird apps that take or modify XLIFF files.
+This combination of actions allows you to convert any Markdown files (`.md`, `.mdx`) to XLIFF and back. Use it in combination with other Blackbird apps that take or modify XLIFF files.
 
-- **Convert PSD to XLIFF** takes PSD file and converts it to an XLIFF file.
-- **Convert XLIFF to PSD** takes a (modified) XLIFF file and an original PSD; it returns the translated PSD file.
+- **Convert Markdown to XLIFF** takes Markdown file and converts it to an XLIFF file.
+- **Convert XLIFF to Markdown** takes a (modified) XLIFF file and an original Markdown file; it returns the translated Markdown file.
 
 ## Feedback and support requests
 

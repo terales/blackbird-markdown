@@ -1,8 +1,8 @@
-using PhotoshopApp.Connections;
+using MarkdownApp.Connections;
 using Blackbird.Applications.Sdk.Common.Authentication;
-using PhotoshopTests.Base;
+using MarkdownTests.Base;
 
-namespace PhotoshopTests;
+namespace MarkdownTests;
 
 [TestClass]
 public class ValidatorTests : TestBase

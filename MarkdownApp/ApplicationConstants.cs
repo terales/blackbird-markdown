@@ -1,3 +1,3 @@
-﻿namespace PhotoshopApp;
+﻿namespace MarkdownApp;
 
 public class ApplicationConstants {}
