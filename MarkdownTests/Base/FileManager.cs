@@ -1,7 +1,7 @@
 using Blackbird.Applications.Sdk.Common.Files;
 using Blackbird.Applications.SDK.Extensions.FileManagement.Interfaces;
 
-namespace PhotoshopTests.Base
+namespace MarkdownTests.Base
 {
     public class FileManager : IFileManagementClient
     {
