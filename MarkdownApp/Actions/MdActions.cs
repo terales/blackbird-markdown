@@ -5,9 +5,10 @@ using Blackbird.Applications.Sdk.Common.Actions;
 using Blackbird.Applications.Sdk.Common.Files;
 using Blackbird.Applications.Sdk.Common.Invocation;
 using Blackbird.Applications.SDK.Extensions.FileManagement.Interfaces;
-using MarkdownApp.Models;
 using Markdig;
 using ReverseMarkdown;
+using MarkdownApp.Models;
+using MarkdownApp;
 
 namespace MarkdownApp.Actions;
 
@@ -31,8 +32,12 @@ public class MdActions : BaseInvocable
         var frontmatterEnd = getFrontmatterEndIndex(markdown);
         var html = Markdig.Markdown.ToHtml(markdown.Substring(frontmatterEnd));
 
-        var resultFileName = Path.ChangeExtension(MdFile.Name, ".html");
-        var resultFile = await uploadContentAsync(html, "text/html", resultFileName);
+        var resultFileName = Path.ChangeExtension(MdFile.Name, ApplicationConstants.HtmlExtension);
+        var resultFile = await uploadContentAsync(
+            html,
+            ApplicationConstants.HtmlMimeType,
+            resultFileName);
+
         return new(resultFile);
     }
 
@@ -52,7 +57,11 @@ public class MdActions : BaseInvocable
             ? translatedMarkdown 
             : $"{frontmatter}\n\n{translatedMarkdown}";
 
-        var resultFile = await uploadContentAsync(finalMarkdown, "text/markdown", originalMd.Name);
+        var resultFile = await uploadContentAsync(
+            finalMarkdown,
+            ApplicationConstants.MarkdownMimeType,
+            originalMd.Name);
+
         return new(resultFile);
     }
 
@@ -73,7 +82,7 @@ public class MdActions : BaseInvocable
     private int getFrontmatterEndIndex(string markdown)
     {
         var frontmatterEndIndex = 0;
-        var frontmatterDelimiter = "---";
+        var frontmatterDelimiter = ApplicationConstants.FrontmatterDelimiter;
 
         if (!markdown.StartsWith(frontmatterDelimiter))
         {
