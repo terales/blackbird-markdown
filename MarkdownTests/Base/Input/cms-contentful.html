@@ -1,0 +1,100 @@
+<p>CMSs (CMS) often serve as central hubs for managing content that may need localization or other types of processing. If you're using Blackbird, there's a good chance you'll want to integrate it with a CMS. This guide will help you understand how to build workflows that center around CMS usage.</p>
+<p>While e-commerce platforms or product information management (PIM) systems are not officially considered CMSs, many of them offer similar features. As a result, the guidance in this document applies to these systems as well.</p>
+<p>We'll start by exploring the common features of CMSs and the challenges they present for localization. Then, using the Contentful app as an example, we’ll walk through various strategies for CMS localization workflows. These strategies can be applied to any CMS app available on Blackbird.</p>
+<p>Now let's begin!</p>
+<p>The first thing you want to ask yourself when approaching a CMS workflow is the following:</p>
+<blockquote>
+<p><em>Does this CMS support localization?</em></p>
+</blockquote>
+<p>From our experience the answer can be one of three options:</p>
+<ol>
+<li>Yes (<a href="/apps/contentful">Contentful</a>, <a href="/apps/zendesk">Zendesk guides</a>, <a href="/apps/sitecore">Sitecore</a>, <a href="/apps/hubspot-cms">Hubspot blog posts &amp; pages</a>, etc.)</li>
+<li>Yes, but only with the support of a popular plugin (<a href="/apps/wordpress">WordPress</a>, Drupal, etc.)</li>
+<li>No (<a href="/apps/marketo">Marketo</a>, <a href="/apps/notion">Notion</a>, <a href="/apps/hubspot-cms">Hubspot forms &amp; emails</a>, etc.)</li>
+</ol>
+<p>When your CMS falls in the second or third category, a little more 'solution architecting' will have to take place in order to build the best worklfow possible with your CMS. You can also see that some apps only partially support localization natively (Hubspot), this gives extra challenges when localizing all possible content is desired.</p>
+<p>This guide will from now on focus on the first (and most straighforward) of the three options. Later guides will take a closer look at the other options and solutions but will built on what is written here.</p>
+<h2>1. Concepts</h2>
+<p>A content management system generally holds (mainly textual) content that is grouped into an <strong>entity</strong>. This entity is system dependent. Examples of entities are: an <em>article</em> in Zendesk, an <em>entry</em> in Contentful, a <em>product</em> in Shopify or a <em>blog post</em> in WordPress. But WordPress also has <em>pages</em> and Shopify also has blog posts. This means that a CMS can also have different types of localizable entities.</p>
+<p>What groups content together into an entity is generally defined as &quot;that what is represented on a single page&quot;. We can therefore view this entity as synonimous with a user-facing page. Pages and entities also tend to have a certain hierarchy, usually defined as groups or <strong>categories</strong> in a CMS. This also makes it very easy to reason about entries in different groups or categories. E.g. &quot;I want all pages in the FAQ category translated&quot;.</p>
+<p>An entity contains content. That content is written in a language. Therefore, the entity should have a <strong>locale</strong> or language attribute (Note: this is exactly what is missing in CMSs that don't natively support localization). The locale attribute is incredibly important for us since it will most likely define from which entity we pull content and to which entity we push translations.</p>
+<p>Finally, the CMS can also have supporting features that may be crucial to your localization workflow like <strong>tags</strong> or <strong>custom fields</strong>.</p>
+<p>With just these concept under our belt we can move on to the next part: defining the core translation workflow.</p>
+<h2>2. Core translation workflow</h2>
+<p>At their core, all workflows involving CMSs will contain the following structure:</p>
+<ol>
+<li>Pull content that needs to be translated.</li>
+<li>Process (translate) the content into the desired locales.</li>
+<li>Push the translated content to the correct entity and locale combination.</li>
+</ol>
+<p>The 3 P's of CMS workflows will always find their way into your birds.</p>
+<p><img src="../../../assets/guides/cms/1729004201270.png" alt="Schematic" /></p>
+<p>It is up to you to make the most important decisions that, together with the 3 P's, will shape your bird:</p>
+<ul>
+<li>❓ What content should be pulled and when?</li>
+<li>❓ Into what languages should be translated?</li>
+<li>❓ What app or service will process the content?</li>
+</ul>
+<p>When you have decided on these aspects, you will see that Blackbird will take care of the rest, namely:</p>
+<ul>
+<li>✔️ Automatically converting the content into an HTML file that accurately represents the entity content so it can be used for TMS in-context translation, or NMT processing.</li>
+<li>✔️ Mapping language codes between different systems required to process your file.</li>
+<li>✔️ Waiting for long-flying processing steps or human-in-the-loop interaction (e.g. wait till the translator completes the translation).</li>
+<li>✔️ Automatically pushing translated content to the right entity ID as embedded in the HTML file.</li>
+</ul>
+<h3>2.1 Machine processing</h3>
+<p>Let's take this theoretical workflow and put it into practise. In the image below you see an example of the pull, process and push steps with their respective actions in Contentful. The <strong>Get entry as HTML file</strong> is used to retrieve an HTML file representing the entry. In this case, DeepL is used in order to process the file (translating it into another language). Then finally, the <strong>Update entry from HTML file</strong> action is used to take the translated HTML file from DeepL and push it back to Contentful. Of course, DeepL can be swapped out for any other single-action processing application and this workflow would look similarly with other CMSs.</p>
+<p><img src="../../../assets/guides/cms/1729083328505.png" alt="Core with NMT" /></p>
+<h3>2.2 Human-in-the-orchestration</h3>
+<p>It's more than likely that mere machine processing does not satisfy your localization needs. Processing your file can of course be a multi-step process. This is almost guaranteed to be the case when there will be some form of human interaction or oversight. In the below example, we are processing the file by sending it to a Phrase TMS project and waiting for the translation to be completed. We are using three steps to achieve our desired outcome. We first create a new job, we then wait for the job to be completed using a <a href="../../concepts/checkpoints">checkpoint</a>. We then download the translated file from Phrase TMS before we push it back to Contentful. Any human-in-the-orchestration with any TMS or other relevant system will look similar to this.</p>
+<blockquote>
+<p><strong>💡 Note</strong>: Checkout our <a href="../../concepts/checkpoints">checkpoints concept guide</a> to learn more about checkpoints!</p>
+</blockquote>
+<p><img src="../../../assets/guides/cms/1729083153924.png" alt="Core with TMS" /></p>
+<h2>3. Continuous localization</h2>
+<p>You have learned how the core translation workflow is typically constructed in a bird. It's time to deal with the first of three big decisions that you can fill in for yourself: ❓ <em>What content should be pulled and when?</em>. A use case that Blackbird is very suited for is continuous localization. In short, a continuous localization process triggers localization workflows whenever new content is created. You can achieve this with the right <a href="../../concepts/triggers">trigger</a> in Blackbird!</p>
+<p>For our Contentful core translation workflow, all we actually need to do is create an event that is triggered when new content is created (or published in our case). Then we point the <strong>Get entry as HTML file</strong> to the entry ID we receive from the event.</p>
+<p><img src="../../../assets/guides/cms/continuous.gif" alt="Continuous localization" /></p>
+<p>That's it! Continuous localization checked off. ✔️</p>
+<p>The critical reader, Contentful veteran or both, will point out a small flaw in the workflow we just created: when we publish our localized content, the workflow is triggered again potentially creating an infinite loop. - Well hats off to you. This is a problem that is dealt with in different ways in different CMSs. For example, in Zendesk you can filter the publication event to only listen to source language publications. However, Contentful does not have such a feature and all publications will trigger this event.</p>
+<p>We recommend looking into the supporting features that CMSs have like <strong>tags</strong> or <strong>custom fields</strong> as mentioned earlier. A popular way to deal with this in Contentful is to use the tags system. You can add filters to the entry events in Blackbird so that only entries with a certain tag will trigger the bird. A good candidate could be <em>Ready for localization</em>. Be sure to delete the tag at the end of your workflow!</p>
+<p><img src="../../../assets/guides/cms/1729086551991.png" alt="Core with tags" /></p>
+<h2>4. Scheduled and historical localization</h2>
+<p>It's possible that continuous localization doesn't quite tickle your fancy. Perhaps you are interested in a more traditional localization workflow where you take new translatable content on a recurring schedule, f.e. once a week. Or, maybe you want to use continuous localization but need to also process entities that were published in the past. In both cases you will want to have a different approach to ❓ <em>What content should be pulled and when?</em> The when will either be a scheduled trigger or a manual trigger (when you click the 'Fly' button in your bird). The what will have to be defined by a different action.</p>
+<p>Every CMS has an action in the shape of <em>Search entities</em>, which you can use to search and select the exact content you want to process. It ususally comes with different filters including a <em>Updated from</em> and <em>Updated to</em> filter that you can use to select the time range in which the content is allowed to be updated.</p>
+<p><img src="../../../assets/guides/cms/1729090495297.png" alt="Scheduled memoQ" /></p>
+<h2>5. Processing multiple languages</h2>
+<p>So far every bird we've seen only translated the content into one language. However, it's more than likely that you actually want to translate into multiple languages. In this section we are thus dealing with the question ❓ <em>Into what languages should be translated?</em></p>
+<p>In the easiest scenario the languages you want to translate to are pre-defined as per some agreement. Usually you can then &quot;hardcode&quot; these languages into the actions that require them. It's also likely that you want to be clever and get the languages as they are defined in the CMS. Most CMS apps havea <strong>Get locales</strong> or <strong>Get languages</strong> action that will return the default language and the other languages that are configured. This is perfect! Because now you can send those languages directly into your processing application.</p>
+<p><img src="../../../assets/guides/cms/1729176014667.png" alt="TMS languages" /></p>
+<p>There is a very important thing to point out when sending languages from one system to the other: they may not be using the same languages codes. That's why in the bird section above we are using the <strong>Convert operator</strong> to convert from Contentful language codes into memoQ language codes. You can read more about conversion and libraries in <a href="../../concepts/libraries">this guide</a>.</p>
+<p>A TMS can usually take all the languages you want to convert to in a single input field, since it would create a project for your content. However, NMT and other single-step processing apps tend to only take one language at a time. In this case you will have to loop over all the languages and process them for each file (see gif below). You can find more information about loops <a href="../loops">here</a>.</p>
+<p><img src="../../../assets/guides/cms/multilocales.gif" alt="Continuous localization" /></p>
+<h2>6. Contentful gotchas</h2>
+<p>Every CMS has its quircks. While we have been featuring Contentful it may be a good moment to dive into Contentful's quircks a little deeper. We recommend always consulting the <a href="../../apps/contentful">Blackbird Contentful documentation</a> for the most up-to-date version.</p>
+<h3>6.1 Content selection</h3>
+<p>As a headless CMS, there is an inherent disconnect between how Contentful displays content and how this content is ultimatly rendered to a website and visible to the end-user. It is up to a developer to create this link but <strong>they can choose to ignore some of Contentful's features</strong>. This is particularly annoying when these features revolve around content and localization. Luckily, pulling and pushing content between Blackbird and Contentful can be very surgical, perhaps even more surgical than a typical connector you can find provided by a TMS.</p>
+<p>In Contentful one can embed content from one entry into another entry. This is often used by teams using Contentful to reduce the redundancy of certain content. It is still important that when one entry is translated, <strong>all the linked entries are translated as well</strong>.</p>
+<p>In Contentful you can mark an entry field as localizable. You have to explicitly set this property on each field (see images below).</p>
+<p><img src="https://raw.githubusercontent.com/bb-io/Contentful/main/image/README/1707747998688.png" alt="1707747998688" />
+<img src="https://raw.githubusercontent.com/bb-io/Contentful/main/image/README/1707748006274.png" alt="1707748006274" /></p>
+<p>The <strong>Get entry as HTML file</strong> action also lets you define if you want to recursively embed content (for translation) from linked entries.</p>
+<p>There are 4 types of linked entries:</p>
+<ul>
+<li>Reference field types from the content model</li>
+<li>Hyperlinks that link to an entry in 'Rich text' fields</li>
+<li>Inline embedded entries in 'Rich text' fields</li>
+<li>Block embedded entries in 'Rich text' fields</li>
+</ul>
+<p>In the action you are able to select exactly which type of linked entry you want to include in the exported HTML file. If you f.e. select 'Hyperlinks' and 'Inline embedded entries', we will recursively search through all 'Rich text' fields and fetch all the content of these embedded entries. For these embedded entries, we do the same thing and also get all hyperlinks and embedded inline entries, and so on.</p>
+<blockquote>
+<p>Note: you can also specify if you want to ignore the localization aspect of reference fields. If this optional input is true, and the 'Include referenced entries' is true, then all referenced entries will be included regardless of localization setting. This is particularly important if the developer decided to ignore the localization field.</p>
+</blockquote>
+<p>Finally, finding embeded entries recursively but indefinitely can be quite dangerous. You may want to explain to Blackbird where and with which field types to stop. You can specify a list of Field IDs which will always be ignored and not added to the produced HTML file.</p>
+<p><img src="../../../assets/guides/cms/1729093156381.png" alt="Contentful surgical" /></p>
+<h3>6.2 Contentful workflows</h3>
+<p>Previously we have talked about continuous localization and about batches of scheduled or historical entities. If the CMS actually natively implements features that help with the content transformation pipeline then that would be ideal of course! Luckily Contentful does have a feature that is designed for this purpose. Contentful calls it 'workflows' and we invite you to read <a href="https://www.contentful.com/marketplace/workflows-app/">its documentation</a>.</p>
+<p>Workflows is designed to track content through its creation lifecycle as it changes hands between different people. Blackbird is also able to inject itself in Contentful workflows! An example of that can be seen here.</p>
+<p><img src="https://raw.githubusercontent.com/bb-io/Contentful/main/image/README/1727786944492.png" alt="Contentful workflows" /></p>
+<p>When a new task is created (we can addtionally filter on task body and assigned user) we will pull the entry related to this task as an HTML file, translate it with DeepL and update the translation in Contentful. Additionally, we update the status of the task to mark it as resolved.</p>
+<p>Using Contentful workflows in combination with Blackbird is ideal for teams that want to exert even more control over ❓ <em>what content should be pulled and when?</em> You can use it to send entries directly from Contentful to a bird that will then orchestrate the content further and ultimately deliver it back.</p>

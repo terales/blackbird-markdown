@@ -108,7 +108,7 @@ Every CMS has an action in the shape of *Search entities*, which you can use to 
 
 So far every bird we've seen only translated the content into one language. However, it's more than likely that you actually want to translate into multiple languages. In this section we are thus dealing with the question ❓ *Into what languages should be translated?*
 
-In the easiest scenario the languages you want to translate to are pre-defined as per some agreement. Usually you can then "hardcode" these languages into the actions that require them. It's also likely that you want to be clever and get the languages as they are defined in the CMS. Most CMS apps havea **Get locales** or **Get languages* action that will return the default language and the other languages that are configured. This is perfect! Because now you can send those languages directly into your processing application.
+In the easiest scenario the languages you want to translate to are pre-defined as per some agreement. Usually you can then "hardcode" these languages into the actions that require them. It's also likely that you want to be clever and get the languages as they are defined in the CMS. Most CMS apps havea **Get locales** or **Get languages** action that will return the default language and the other languages that are configured. This is perfect! Because now you can send those languages directly into your processing application.
 
 ![TMS languages](../../../assets/guides/cms/1729176014667.png)
 

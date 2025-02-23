@@ -16,7 +16,7 @@ namespace MarkdownTests.Base
         {
             var inputPath = Path.Combine(Environment.CurrentDirectory, "Base", "Input", reference.Name);
             var fullPath = Path.GetFullPath(inputPath);
-            
+
             var bytes = File.ReadAllBytes(fullPath);
             var stream = new MemoryStream(bytes);
             return Task.FromResult((Stream)stream);
@@ -24,7 +24,7 @@ namespace MarkdownTests.Base
 
         public Task<FileReference> UploadAsync(Stream stream, string contentType, string fileName)
         {
-            var path = Path.Combine(FolderLocation, "Output", fileName);
+            var path = Path.Combine(FolderLocation, fileName);
             var directory = new FileInfo(path).Directory 
                 ?? throw new DirectoryNotFoundException($"Could not access directory for path: {path}");
             directory.Create();
