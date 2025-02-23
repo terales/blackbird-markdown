@@ -1,7 +1,7 @@
 using Blackbird.Applications.Sdk.Common.Authentication;
 using Blackbird.Applications.Sdk.Common.Invocation;
 using Microsoft.Extensions.Configuration;
-using MarkdownApp;
+using Apps.MarkdownApp;
 using System;
 using System.Collections.Generic;
 using System.Linq;

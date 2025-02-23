@@ -1,7 +1,7 @@
 ﻿using Blackbird.Applications.Sdk.Common;
 using Blackbird.Applications.Sdk.Common.Metadata;
 
-namespace MarkdownApp;
+namespace Apps.MarkdownApp;
 
 public class Application : IApplication, ICategoryProvider
 {

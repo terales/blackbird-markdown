@@ -7,10 +7,10 @@ using Blackbird.Applications.Sdk.Common.Invocation;
 using Blackbird.Applications.SDK.Extensions.FileManagement.Interfaces;
 using Markdig;
 using ReverseMarkdown;
-using MarkdownApp.Models;
-using MarkdownApp;
+using Apps.MarkdownApp.Models;
+using Apps.MarkdownApp;
 
-namespace MarkdownApp.Actions;
+namespace Apps.MarkdownApp.Actions;
 
 [ActionList]
 public class MdActions : BaseInvocable

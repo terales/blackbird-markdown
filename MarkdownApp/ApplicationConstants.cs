@@ -1,4 +1,4 @@
-﻿namespace MarkdownApp;
+﻿namespace Apps.MarkdownApp;
 
 public class ApplicationConstants 
 {

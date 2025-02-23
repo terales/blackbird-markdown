@@ -1,4 +1,4 @@
-using MarkdownApp.Connections;
+using Apps.MarkdownApp.Connections;
 using Blackbird.Applications.Sdk.Common.Authentication;
 using MarkdownTests.Base;
 

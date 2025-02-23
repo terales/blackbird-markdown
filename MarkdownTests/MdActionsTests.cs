@@ -1,4 +1,4 @@
-using MarkdownApp.Actions;
+using Apps.MarkdownApp.Actions;
 using Blackbird.Applications.Sdk.Common.Files;
 using MarkdownTests.Base;
 
